@@ -98,7 +98,7 @@ export default function EditTransactionPage() {
       button={{
         back: {
           text: 'Back',
-          href: `/transactions/${params.transaction_id}`
+          // href: `/transactions/${params.transaction_id}`
         }
       }}
       helperText={helperText}
