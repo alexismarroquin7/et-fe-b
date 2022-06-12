@@ -68,10 +68,14 @@ export const TransactionItem = ({transaction, index}) => {
         }}
       >{name}</td>
       
-      <style jsx="true">{`
+      <style jsx>{`
         tr {
           padding: 1rem;
         }  
+
+        td {
+          padding: 1rem;
+        }
       `}</style>
     
     </tr>

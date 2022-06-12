@@ -38,80 +38,77 @@ export default function TransactionsPage () {
 
   useEffect(() => {
     if(!router.isReady) return;
-    setQuery({ 
-      sortBy: router.query.sortBy || initialQuery.sortBy,
-      dir: router.query.dir || initialQuery.dir,
-      date_after: router.query.date_after || initialQuery.date_after,
-      date_before: router.query.date_before || initialQuery.date_before,
+    setQuery({
+      sortBy: router.query.sortBy || 'date',
+      dir: router.query.dir || 'desc',
+      date_after: router.query.date_after || '',
+      date_before: router.query.date_before || '',
     });
   }, [router.isReady, router.query]);
   
   useEffect(() => {
-
     if(router.asPath.split('?').length === 2 && router.asPath.split('?')[1] === stringifyQuery(query).slice(1)) return;
+    if(!router.isReady) return;
     dispatch(findAll(query));
-    router.push(`/transactions/${stringifyQuery(query)}`)
-  }, [dispatch, router, query]);
+    router.push(`/transactions${stringifyQuery(query)}`);
+  }, [query]);
   
-  
-  return <PrivateRoute>
-    <div
-      className="transactions_page"
+  return <div
+    className="transactions_page"
+  >
+
+    <TransactionPageNavBar/>
+
+    <TransactionSearchBar
+      query={query}
+      setQuery={setQuery}
+    />
+    
+    {trx.loading && <Grid
+      padding="1rem 0"
     >
+      <CircularProgress />
+    </Grid>}
 
-      <TransactionPageNavBar/>
-
-      <TransactionSearchBar
-        query={query}
-        setQuery={setQuery}
-      />
-      
-      {trx.loading && <Grid
+    {
+      !trx.loading &&
+      trx.list.length > 0 &&
+      trx.error.message.length === 0 &&
+      <TransactionList transactions={trx.list}/>
+    }
+    
+    {
+      !trx.loading &&
+      trx.error.message.length > 0 && (
+      <Grid
         padding="1rem 0"
       >
-        <CircularProgress />
-      </Grid>}
+        <p
+          style={{color: "red"}}
+        >{trx.error.message}</p>
+      </Grid>
+      )
+    }
 
-      {
-        !trx.loading &&
-        trx.list.length > 0 &&
-        trx.error.message.length === 0 &&
-        <TransactionList transactions={trx.list}/>
-      }
-      
-      {
-        !trx.loading &&
-        trx.error.message.length > 0 && (
-        <Grid
-          padding="1rem 0"
-        >
-          <p
-            style={{color: "red"}}
-          >{trx.error.message}</p>
-        </Grid>
-        )
-      }
-
-      {/* {
-        !trx.loading &&
-        trx.list.length === 0 && (
-        <Grid
-          padding="1rem 0"
-        >
-          <p>This list is empty.</p>
-        </Grid>
-        )
-      } */}
-      
-      <style jsx>{`
-        .transactions_page {
-          width: 100%;
-          display: flex;
-          flex-flow: column wrap;
-          align-items: center;        
-        }
-      `}</style>
+    {/* {
+      !trx.loading &&
+      trx.list.length === 0 && (
+      <Grid
+        padding="1rem 0"
+      >
+        <p>This list is empty.</p>
+      </Grid>
+      )
+    } */}
     
-    </div>
-  </PrivateRoute>
+    <style jsx>{`
+      .transactions_page {
+        width: 100%;
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;        
+      }
+    `}</style>
+  
+  </div>
 }

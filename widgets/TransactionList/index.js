@@ -23,16 +23,16 @@ const properties = [
 ]
 
 export const TransactionList = ({transactions = []}) => {
-  return <Grid
+  return <div
     width="100%"
     ff="col"
     ai="center"
   >
-    <Grid
+    <div
       width="90%"
     >
       <p>results: {transactions.length}</p>
-    </Grid>
+    </div>
 
     <table>
 
@@ -40,7 +40,7 @@ export const TransactionList = ({transactions = []}) => {
         <tr>
           {properties.map(prop => {
             return <th
-            key={prop.name}
+              key={prop.name}
             >{prop.name}</th>
           })}
         </tr>
@@ -56,10 +56,11 @@ export const TransactionList = ({transactions = []}) => {
 
     </table>
 
-    <style jsx="true">{`
+    <style jsx>{`
       
       table {
         border-collapse: collapse;
+
       }
 
       tr {
@@ -73,5 +74,5 @@ export const TransactionList = ({transactions = []}) => {
 
     `}</style>
 
-  </Grid>
+  </div>
 }
