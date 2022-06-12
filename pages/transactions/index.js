@@ -51,7 +51,7 @@ export default function TransactionsPage () {
     if(!router.isReady) return;
     dispatch(findAll(query));
     router.push(`/transactions${stringifyQuery(query)}`);
-  }, [query]);
+  }, [dispatch, query]); // eslint-disable-line
   
   return <div
     className="transactions_page"

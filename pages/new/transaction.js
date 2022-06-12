@@ -34,7 +34,7 @@ const initialValues = {
   type: ''
 };
 
-export const NewTransaction = () => {
+export default function NewTransaction ()  {
   const {trx, auth} = useSelector(s => {
     return {
       trx: s.transaction,
