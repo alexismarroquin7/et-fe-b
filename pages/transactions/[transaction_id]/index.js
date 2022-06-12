@@ -28,11 +28,11 @@ export default function TransactionPage() {
   const trx = useSelector(s => s.transaction);
   
   const dispatch = useDispatch();
-  const params = useParams();
+  // const params = useParams();
 
-  useEffect(() => {
-    dispatch(findByTransactionId(params.transaction_id));
-  }, [dispatch, params.transaction_id]);
+  // useEffect(() => {
+  //   dispatch(findByTransactionId(params.transaction_id));
+  // }, [dispatch, params.transaction_id]);
 
   const [optionsMenuAnchorEl, setOptionsMenuAnchorEl] = useState(null);
   const optionsMenuOpen = Boolean(optionsMenuAnchorEl);
@@ -81,7 +81,7 @@ export default function TransactionPage() {
       >
         <MenuItem
           onClick={() => {
-            navigate(`/transactions/${params.transaction_id}/edit`);
+            // navigate(`/transactions/${params.transaction_id}/edit`);
           }}
         >
         

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
 import { Grid } from "../../../components"
 import { findByTransactionId, updateByTransactionId } from "../../../store/slices/transaction-slice";
 import { TransactionForm } from "../../../widgets"
@@ -19,7 +18,6 @@ export default function EditTransactionPage() {
   const [values, setValues] = useState(initialValues);
   
   const dispatch = useDispatch();
-  const params = useParams();
   
   const {trx, auth, loading, err: { message: helperText } } = useSelector(s => {
     return {
@@ -30,9 +28,9 @@ export default function EditTransactionPage() {
     }
   });
 
-  useEffect(() => {
-    dispatch(findByTransactionId(params.transaction_id));
-  }, [dispatch, params.transaction_id]);
+  // useEffect(() => {
+  //   dispatch(findByTransactionId(params.transaction_id));
+  // }, [dispatch, params.transaction_id]);
 
   useEffect(() => {
     if(trx.id === null) return;
