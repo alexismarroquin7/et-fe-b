@@ -1,3 +1,4 @@
+import CheckIcon from '@mui/icons-material/Check';
 
 export const SortByModal = (props) => {
   const { query, setQuery } = props;
@@ -26,7 +27,14 @@ export const SortByModal = (props) => {
               sortBy: 'date'
             })
           }}
-          >Date</button>
+          >
+            Date
+            <CheckIcon
+              sx={{
+                opacity: query.sortBy === 'date' ? '1' : '0'
+              }}
+            />
+          </button>
         <button
           className={`${query.sortBy === 'name' ? 'contained' : 'outlined' }`}
           onClick={() => {
@@ -35,7 +43,14 @@ export const SortByModal = (props) => {
               sortBy: 'name'
             })
           }}
-        >Name</button>
+        >
+          Name
+          <CheckIcon
+            sx={{
+              opacity: query.sortBy === 'name' ? '1' : '0'
+            }}
+          />
+        </button>
       </div>
     
     </div>
@@ -93,6 +108,10 @@ export const SortByModal = (props) => {
         padding: 1rem;
         border-radius: 2rem;
         border: 1px solid #ccc;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-between;
       }
       
       button.contained {

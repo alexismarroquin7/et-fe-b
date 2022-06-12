@@ -24,10 +24,10 @@ export const LoginForm = (props) => {
     dispatch(login({credentials: values}));
   }
 
-  useEffect(() => {
-    if(!auth.loggedIn) return;
-    router.push(`/transactions`);
-  }, [auth.loggedIn, router]);
+  // useEffect(() => {
+    // if(!auth.loggedIn) return;
+    // router.push(`/transactions`);
+  // }, [auth.loggedIn, router]);
 
   return <form
     border="1px solid #ccc"

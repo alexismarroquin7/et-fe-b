@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosInstance as axios, stringifyQuery } from "../../utils";
+import { axiosWithAuth as axios, stringifyQuery } from "../../utils";
 
 const initialState = {
   loading: false,
@@ -31,12 +31,11 @@ export const findAll = createAsyncThunk(
       date_after: query.date_after || '',
       date_before: query.date_before || ''
     });
-
+    
     try {
       const res = await axios().get(`/transactions${q}`);
       return { transactions: res.data.results };
     } catch (err) {
-      console.log(err)
       return rejectWithValue({
         error: {
           message: err.response.data.message
@@ -126,7 +125,7 @@ export const transactionSlice = createSlice({
     },
     [findAll.rejected]: (state, { payload }) => {
       state.loading = false;
-      state.error.message = 'an error occured';
+      state.error.message = payload.error.message || 'an error occured';
     },
     [create.pending]: (state) => {
       state.loading = true;

@@ -3,20 +3,19 @@ import { AccountCircle } from "@mui/icons-material"
 import { CircularProgress, Menu, MenuItem } from "@mui/material"
 
 // widgets
-import { Button, Grid } from "../../components"
+import { Button, Grid, PrivateRoute } from "../../components"
 import { TransactionList } from "../../widgets"
 import { TransactionSearchBar } from "../../widgets/TransactionSearchBar"
 
 // store
 import { findAll } from "../../store/slices/transaction-slice";
-import { logout } from "../../store/slices/auth-slice";
 
 // hooks
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 // utils
-import { parseQuery } from "../../utils"
+import { parseQuery, stringifyQuery } from "../../utils"
 import { useRouter } from "next/router"
 import { TransactionPageNavBar } from "../../widgets/TransactionPageNavBar"
 
@@ -38,66 +37,81 @@ export default function TransactionsPage () {
   const router = useRouter();
 
   useEffect(() => {
-    dispatch(findAll());
-  }, [dispatch]);
+    if(!router.isReady) return;
+    setQuery({ 
+      sortBy: router.query.sortBy || initialQuery.sortBy,
+      dir: router.query.dir || initialQuery.dir,
+      date_after: router.query.date_after || initialQuery.date_after,
+      date_before: router.query.date_before || initialQuery.date_before,
+    });
+  }, [router.isReady, router.query]);
+  
+  useEffect(() => {
+
+    if(router.asPath.split('?').length === 2 && router.asPath.split('?')[1] === stringifyQuery(query).slice(1)) return;
+    dispatch(findAll(query));
+    router.push(`/transactions/${stringifyQuery(query)}`)
+  }, [dispatch, router, query]);
   
   
-  return <div
-    className="transactions_page"
-  >
-
-    <TransactionPageNavBar/>
-
-    <TransactionSearchBar
-      query={query}
-      setQuery={setQuery}
-    />
-    
-    {/* {trx.loading && <Grid
-      padding="1rem 0"
+  return <PrivateRoute>
+    <div
+      className="transactions_page"
     >
-      <CircularProgress />
-    </Grid>} */}
 
-    {/* {
-      !trx.loading &&
-      trx.list.length > 0 &&
-      trx.error.message.length === 0 &&
-      <TransactionList transactions={trx.list}/>
-    } */}
-    
-    {/* {
-      !trx.loading &&
-      trx.error.message.length > 0 && (
-      <Grid
+      <TransactionPageNavBar/>
+
+      <TransactionSearchBar
+        query={query}
+        setQuery={setQuery}
+      />
+      
+      {trx.loading && <Grid
         padding="1rem 0"
       >
-        <p
-          style={{color: "red"}}
-        >{trx.error.message}</p>
-      </Grid>
-      )
-    } */}
+        <CircularProgress />
+      </Grid>}
 
-    {/* {
-      !trx.loading &&
-      trx.list.length === 0 && (
-      <Grid
-        padding="1rem 0"
-      >
-        <p>This list is empty.</p>
-      </Grid>
-      )
-    } */}
-    
-    <style jsx>{`
-      .transactions_page {
-        width: 100%;
-        display: flex;
-        flex-flow: column wrap;
-        align-items: center;        
+      {
+        !trx.loading &&
+        trx.list.length > 0 &&
+        trx.error.message.length === 0 &&
+        <TransactionList transactions={trx.list}/>
       }
-    `}</style>
-  
-  </div>
+      
+      {
+        !trx.loading &&
+        trx.error.message.length > 0 && (
+        <Grid
+          padding="1rem 0"
+        >
+          <p
+            style={{color: "red"}}
+          >{trx.error.message}</p>
+        </Grid>
+        )
+      }
+
+      {/* {
+        !trx.loading &&
+        trx.list.length === 0 && (
+        <Grid
+          padding="1rem 0"
+        >
+          <p>This list is empty.</p>
+        </Grid>
+        )
+      } */}
+      
+      <style jsx>{`
+        .transactions_page {
+          width: 100%;
+          display: flex;
+          flex-flow: column wrap;
+          align-items: center;        
+        }
+      `}</style>
+    
+    </div>
+  </PrivateRoute>
 }

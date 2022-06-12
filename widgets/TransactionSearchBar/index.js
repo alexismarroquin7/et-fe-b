@@ -5,6 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { KeyboardArrowDown } from "@mui/icons-material";
 import { SortByModal } from "./SortByModal";
+import { DateRangeModal } from "./DateRangeModal";
 
 const classes = {
   modal: {
@@ -79,10 +80,6 @@ export const TransactionSearchBar = ({query, setQuery}) => {
   const handleOpen = key => setOpen({...open, [key]: true});
   const handleClose = key => setOpen({...open, [key]: false});
 
-  const handleChange = e => {
-    setQuery({...query, [e.target.name]: e.target.value});
-  }
-
   const [dirText, setDirText] = useState(() => {
     return createDirText(query);
   });
@@ -124,40 +121,13 @@ export const TransactionSearchBar = ({query, setQuery}) => {
           <KeyboardArrowDown/>
         </button>
         
-        <Modal
+        <DateRangeModal
+          query={query}
+          setQuery={setQuery}
           open={open.dateRange}
           onClose={() => handleClose('dateRange')}
-        >
-          <Box sx={classes.modal}>
-            <Grid
-              width="90%"
-              jc="space-between"
-              ai="center"
-            >
-              <label>AFTER</label>
-              <input
-                type="date"
-                name="date_after"
-                value={query.date_after}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid
-              width="90%"
-              jc="space-between"
-              ai="center"
-            >
-              <label>BEFORE</label>
-              <input
-                type="date"
-                name="date_before"
-                value={query.date_before}
-                onChange={handleChange}
-                min={query.date_after}
-              />
-            </Grid>
-          </Box>
-        </Modal>
+        />
+
       </div>
 
       <button
@@ -219,7 +189,7 @@ export const TransactionSearchBar = ({query, setQuery}) => {
         padding: 0rem 1rem;
         padding: 0;
         border: 0;
-        color: #4285F4;
+        color: black;
       }
       
       button[name=sortBy] {

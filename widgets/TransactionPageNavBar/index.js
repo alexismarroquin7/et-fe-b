@@ -1,6 +1,9 @@
 import { AccountCircle } from "@mui/icons-material";
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/slices/auth-slice";
+
 
 const initialAnchorEl = null;
 
@@ -10,6 +13,7 @@ export const TransactionPageNavBar = (props) => {
   const open = Boolean(anchorEl);
   
   const handleClose = () => setAnchorEl(initialAnchorEl);
+  const dispatch = useDispatch();
 
   return <div
     className="transaction_page_nav_bar"
