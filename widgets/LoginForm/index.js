@@ -41,7 +41,7 @@ export const LoginForm = (props) => {
   >
 
     <h3>Login</h3>
-  
+    
     <input
       placeholder="Email or UserID"
       name="login"
