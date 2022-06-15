@@ -1,8 +1,9 @@
+import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, Grid } from "../../components";
-import { login } from "../../store";
+import { login, setRedirectURL } from "../../store";
 
 const initialValues = {
   login: '',
@@ -24,10 +25,17 @@ export const LoginForm = (props) => {
     dispatch(login({credentials: values}));
   }
 
-  // useEffect(() => {
-    // if(!auth.loggedIn) return;
-    // router.push(`/transactions`);
-  // }, [auth.loggedIn, router]);
+  useEffect(() => {
+    if(auth.redirectURL === ('' || '/login')) return;
+    if(auth.redirectURL === '/transactions'){
+      router.push('/transactions');
+    }
+
+    return () => {
+      if(auth.redirectURL.length === 0) return;
+      dispatch(setRedirectURL(''));
+    }
+  }, [auth.redirectURL, router, dispatch]);
 
   return <form
     border="1px solid #ccc"
@@ -57,7 +65,12 @@ export const LoginForm = (props) => {
       onChange={handleChange}
     />
   
-    <button type="submit">Login</button>
+    <button 
+      type="submit"
+      className={`${(auth.loading || auth.redirectURL === '/transactions') ? 'submit_button_loading' : ''}`}
+    >
+      {(auth.loading || auth.redirectURL === '/transactions') ? <CircularProgress size={'1rem'}/> : 'Login'}
+    </button>
     
     {auth.error.message && <p className="error_message">{auth.error.message}</p>}
   
@@ -68,13 +81,15 @@ export const LoginForm = (props) => {
         onClick={() => {
           router.push(`/sign-up`)
         }}
-      >Sign-Up</button>
+      >
+        Sign-Up
+      </button>
     </div>
     
     <style jsx>{`
       form {
         border: 1px solid #eee;
-        border-radius: 1rem;
+        border-radius: .5rem;
         width: 90%;
         padding: 1rem;
         display: flex;
@@ -88,7 +103,7 @@ export const LoginForm = (props) => {
         padding: 1rem;
         font-size: 1rem;
         border: 1px solid #ddd;
-        border-radius: 2rem;
+        border-radius: .5rem;
       }
 
       p.error_message {
@@ -105,21 +120,35 @@ export const LoginForm = (props) => {
       button {
         font-size: 1rem;
         padding: 1rem;
-        border-radius: 2rem;
+        border-radius: .5rem;
+        font-weight: bold;
       }
 
       button[type=submit] {
         width: 100%;
         color: #fff;
         background-color: #4285F4;
-        border: 0;
+        border: 1px solid #4285F4;
+      }
+
+      button[type=submit].submit_button_loading {
+        color: #4285F4;
+        background-color: #fff;
+        padding: 1rem;
       }
       
       button[type=button] {
-        color:;
+        color: #4285F4;
         background-color: transparent;
-        border: 0;
-        padding: 0;
+        border: 1px solid white;
+        padding: .5rem;
+        border-radius: .5rem;
+        transition: all .2s;
+      }
+      
+      button[type=button]:hover {
+        border-color: #eee;
+        background-color: #eee;
       }
 
     `}</style>

@@ -3,8 +3,8 @@ import { axiosWithAuth as axios } from "../../utils";
 
 const initialState = {
   user: {},
-  loggedIn: false,
   loading: false,
+  redirectURL: '',
   error: {
     message: ''
   }
@@ -50,31 +50,37 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setRedirectURL: (state, { payload }) => {
+      state.redirectURL = payload;
+    }
   },
   extraReducers: {
     [login.pending]: (state) => {
       state.loading = true;
       state.error.message = '';
+      state.redirectURL = initialState.redirectURL;
     },
     [login.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.loggedIn = true;
       state.error.message = '';
       state.user = payload.user;
+      state.redirectURL = '/transactions';
     },
     [login.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error.message = payload.error.message;
+      state.redirectURL = '/login';
     },
     [logout.pending]: (state) => {
       state.loading = true;
       state.error.message = initialState.error.message;
+      state.redirectURL = initialState.redirectURL;
     },
     [logout.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.loggedIn = initialState.loggedIn;
       state.error.message = initialState.error.message;
       state.user = initialState.user;
+      state.redirectURL = '/login';
     },
     [logout.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -95,4 +101,4 @@ export const authSlice = createSlice({
   }
 });
 
-// export const {  } = authSlice.actions;
+export const { setRedirectURL } = authSlice.actions;

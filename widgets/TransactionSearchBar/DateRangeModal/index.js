@@ -109,8 +109,14 @@ export const DateRangeModal = (props) => {
       .before input {
         padding: 1rem;
         font-size: 1rem;
-        border: 1px solid #eee;
+        border: 1px solid #fff;
+        background-color: #fff;
         font-family: 'Roboto', sans-serif;
+        border-radius: .5rem;
+      }
+
+      label {
+        font-weight: bold;
       }
 
     `}</style>

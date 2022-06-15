@@ -60,12 +60,12 @@ export const SortByModal = (props) => {
       .modal,
       .open,
       .closed {
-        transition: all 2s;
+        transition: all .2s;
       }
 
       .modal {
         position: fixed;
-        z-index: ${props.zIndex ? props.zIndex : '1'};
+        z-index: ${props.zIndex ? props.zIndex : '2'};
         left: ${props.left ? props.left : '0' };
         top: ${props.top ? props.top  : '0'};
         width: 100%;
@@ -96,7 +96,7 @@ export const SortByModal = (props) => {
         padding-bottom: 2rem;
         border-top: 1px solid #ccc;
       }
-
+      
       .modal_actions {
         display: flex;
         flex-flow: column wrap;
@@ -112,6 +112,8 @@ export const SortByModal = (props) => {
         flex-flow: row wrap;
         align-items: center;
         justify-content: space-between;
+        font-weight: bold;
+
       }
       
       button.contained {

@@ -53,19 +53,14 @@ export const TransactionPageNavBar = (props) => {
     
     </div>
 
-    
-    <div 
-      className="border_bottom"
-    ></div>
-
     <style jsx>{`
       .transaction_page_nav_bar {
         width: 100%;
         display: flex;
         flex-flow: column wrap;
         align-items: center;
-        padding: 1rem 0 0 0;
-        gap: 1rem;
+        background-color: white;
+        padding: 1rem 0;
       }
       
       .transaction_page_nav_bar_wrapper {
@@ -75,13 +70,7 @@ export const TransactionPageNavBar = (props) => {
         justify-content: space-between;
         align-items: center;
       }
-      
-      .border_bottom {
-        width: 100%;
-        background-color: #eee;
-        padding: 1px;
-      }
-
+  
       .new_transaction_button {
         font-size: 1rem;
         padding: .5rem 1rem;

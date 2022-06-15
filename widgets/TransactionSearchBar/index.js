@@ -152,11 +152,12 @@ export const TransactionSearchBar = ({query, setQuery}) => {
     <style jsx>{`
       
       .transaction_search_bar {
-        width: 100%;
         display: flex;
         flex-flow: column wrap;
         align-items: center;
-        border: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        background-color: white;
       }
       
       .filter_group {
@@ -164,7 +165,7 @@ export const TransactionSearchBar = ({query, setQuery}) => {
         display: flex;
         flex-flow: row wrap;
         gap: 1rem;
-        padding: .5rem 0;
+        padding: 1rem 0;
         justify-content: space-between;
       }
       
@@ -177,19 +178,19 @@ export const TransactionSearchBar = ({query, setQuery}) => {
       button {
         border: 1px solid #eee;
         background-color: transparent;
-        padding: .5rem 1rem;
+        padding: 0 1rem;
         border-radius: 2rem;
         display: flex;
         flex-flow: row wrap;
         align-items: center;
         gap: .1rem;
+        font-weight: bold;
       }
-
+      
       button[name=dir] {
-        padding: 0rem 1rem;
-        padding: 0;
-        border: 0;
+        /* padding: 0 .5rem; */
         color: black;
+        background-color: white;
       }
       
       button[name=sortBy] {
